@@ -53,4 +53,4 @@ let array5 = [1, 5, 10, 15, 21];
 const isPassed = array5.some((currentValue) => {
   return currentValue % 2 === 0;
 });
-console.log(isPassed);
+// console.log(isPassed);
