@@ -92,3 +92,53 @@ const spliceArray = (() => {
   array0.splice(0, array0.length);
   console.log(array0.length);
 })();
+
+//配列の反復処理
+console.log("------反復処理-------");
+const forForeackArry = (() => {
+  const array = [1, 2, 3];
+  console.log("forEach");
+  array.forEach((current, index, array) => {
+    console.log(current, index, array);
+  });
+  console.log("map (非破壊)");
+  const newArray = array.map((current, index, array) => {
+    return current * 10;
+  });
+  console.log(newArray);
+  console.log("map(非破壊)");
+  const nArray = array.filter((current, index, array) => {
+    return current % 2 === 1;
+  });
+  console.log(nArray);
+  console.log("reduce");
+  const totalValue = array.reduce((accumlator, current, index, array) => {
+    return accumlator + current;
+  }, 0);
+  console.log(totalValue);
+  function myFunc() {
+    // Array-likeオブジェクトを配列へ変換
+    const argumentsArray = Array.from(arguments);
+    console.log(Array.isArray(argumentsArray)); // => true
+    console.log(argumentsArray);
+    // 配列のメソッドを利用できる
+    argumentsArray.forEach((arg) => {
+      console.log(arg);
+    });
+  }
+  myFunc("a", "b", "c");
+  const ECMAScriptVersions = [
+    { name: "ECMAScript 1", year: 1997 },
+    { name: "ECMAScript 2", year: 1998 },
+    { name: "ECMAScript 3", year: 1999 },
+    { name: "ECMAScript 5", year: 2009 },
+    { name: "ECMAScript 5.1", year: 2011 },
+    { name: "ECMAScript 2015", year: 2015 },
+    { name: "ECMAScript 2016", year: 2016 },
+    { name: "ECMAScript 2017", year: 2017 }
+  ];
+  const versionNames = ECMAScriptVersions.filter(
+    (ECMAScript) => ECMAScript.year <= 2000
+  ).map((ECMAScript) => ECMAScript.name);
+  console.log(versionNames);
+})();
