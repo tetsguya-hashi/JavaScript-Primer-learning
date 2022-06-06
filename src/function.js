@@ -98,3 +98,23 @@ console.log(str2); //bbb
   const prefixedStrings = Prefixer.prefixArray(["a", "b", "c"]);
   console.log(prefixedStrings); // => ["pre-a", "pre-b", "pre-c"]
 }
+{
+  //アロー関数で上記と同じことをする
+  console.log("--arrow function--");
+  const Prefixer = {
+    prefix: "pre",
+    prefixArray(strings) {
+      return strings.map((str) => {
+        //アロー関数は、thisを持たないため外側のprefixArrayのthisを参照
+        //prefixArrayのthisはPrefixerです
+        return this.prefix + "-" + str;
+      });
+    }
+  };
+  //ベースオブジェクトはPrefixerとなるためthisが使える
+  const prefixedStrings = Prefixer.prefixArray(["a", "b", "c"]);
+  console.log(prefixedStrings);
+
+  //アロー関数は　thisを持たないので、アロー関数の定義時に静的に決まる
+  //Arrow Functionにおけるthisは「Arrow Function自身の外側のスコープに定義されたもっとも近い関数のthisの値」
+}
