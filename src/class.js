@@ -12,3 +12,35 @@
   console.log(point.x);
   console.log(point.y);
 }
+{
+  console.log("---getter,setter---");
+  class NumberWrapper {
+    constructor(value) {
+      this._value = value;
+    }
+    get value() {
+      console.log("getter");
+      return this._value;
+    }
+    set value(newValue) {
+      console.log("setter");
+      this._value = newValue;
+    }
+  }
+  const numberWrapper = new NumberWrapper(1);
+  console.log(numberWrapper.value);
+  numberWrapper.value = 42;
+  console.log(numberWrapper.value);
+}
+{
+  console.log("---クラスフィールドとconstructor---");
+  class MyClass {
+    // publicField = 1;//es2022のたサポート外
+    constructor(arg) {
+      this.property = arg;
+    }
+  }
+  const myClass = new MyClass(2);
+  console.log(myClass.publicField); //1,es2022のたサポート外
+  console.log(myClass.property); //2
+}
