@@ -44,3 +44,43 @@
   console.log(myClass.publicField); //1,es2022のたサポート外
   console.log(myClass.property); //2
 }
+{
+  class Counter {
+    constructor(count) {
+      this._count = count;
+      this.up = this.increment;
+    }
+    increment() {
+      this._count++;
+    }
+  }
+  const counter = new Counter(0);
+  // counter._count = 0;
+  counter.up();
+  console.log(counter._count);
+}
+{
+  console.log("---クラスフィールドでのthis、アロー関数---");
+  class Counter {
+    constructor(count = 0) {
+      this._count = count;
+      this.up = () => {
+        this.increment();
+      };
+    }
+    increment() {
+      this._count++;
+    }
+  }
+  const counter = new Counter();
+  //アロー関数は、thisがクラスのインスタンスに固定される
+  const up = counter.up;
+  up();
+  console.log(counter._count); //1
+  //普通に呼び出すとundefinedになる
+  const increment = counter.increment;
+}
+{
+  console.log("---静的メゾット---");
+  //クラスをインスタンス化せずに利用する
+}
