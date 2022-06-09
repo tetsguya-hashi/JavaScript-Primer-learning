@@ -84,3 +84,10 @@
   console.log("---静的メゾット---");
   //クラスをインスタンス化せずに利用する
 }
+{
+  console.log("プロトタイプオブジェクト");
+  function fn() {}
+  console.log(typeof fn.prototype === "object"); //true
+  class MyClass {}
+  console.log(typeof MyClass.prototype === "object"); //true
+}
