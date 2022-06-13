@@ -26,23 +26,94 @@
 //     console.log("処理を終了します");
 //   });
 // }
+// {
+//   let instance = new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       const randDate = Date.now();
+//       if (randDate % 2 === 0) {
+//         resolve(randDate);
+//       } else {
+//         reject(randDate);
+//       }
+//     }, 1000);
+//   });
+//   instance = instance
+//     .then((value) => {
+//       console.log(`[${value}は偶数のため成功]`);
+//     })
+//     .catch((value) => {
+//       console.log(`[${value}は奇数のため失敗]`);
+//     })
+//     .finally(() => {});
+// }
+// {
+//   console.log("---Promiseチェーン---");
+//   function promiseFactory(count) {
+//     return new Promise((resolve, reject) => {
+//       setTimeout(() => {
+//         count++;
+//         console.log(
+//           `${count}回目のコールです。時刻：[${new Date().toTimeString()}]`
+//         );
+//         if (count === 3) {
+//           reject(count);
+//         } else {
+//           resolve(count);
+//         }
+//       }, 1000);
+//     });
+//   }
+//   promiseFactory(0)
+//     .then((count) => {
+//       return promiseFactory(count);
+//     })
+//     .then((count) => {
+//       return promiseFactory(count);
+//     })
+//     .then((count) => {
+//       return promiseFactory(count);
+//     })
+//     .then((count) => {
+//       return promiseFactory(count);
+//     })
+//     .catch((errorCount) => {
+//       console.error(`エラーに飛びました。現在のカウントは${errorCount}です。`);
+//     })
+//     .finally(() => {
+//       console.log("処理を終了します。");
+//     });
+// }
 {
-  let instance = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const randDate = Date.now();
-      if (randDate === 0) {
-        resolve(randDate);
-      } else {
-        reject(randDate);
-      }
-    }, 1000);
-  });
-  instance = instance
-    .then((value) => {
-      console.log(`[${value}は偶数のため成功]`);
+  function promiseFactory2(count) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        count += 2;
+        console.log(count);
+        if (6 <= count) {
+          reject(count);
+        } else {
+          resolve(count);
+        }
+      }, 1000);
+    });
+  }
+  promiseFactory2(-2)
+    .then((count) => {
+      return promiseFactory2(count);
     })
-    .catch((value) => {
-      console.log(`[${value}は奇数のため失敗]`);
+    .then((count) => {
+      return promiseFactory2(count);
     })
-    .finally(() => {});
+    .then((count) => {
+      return promiseFactory2(count);
+    })
+    .then((count) => {
+      return promiseFactory2(count);
+    })
+    .catch((erroCount) => {
+      console.log("７以上になりました");
+    })
+    .finally(() => {
+      console.log("処理を終了します。");
+    });
 }
