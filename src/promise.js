@@ -83,37 +83,90 @@
 //       console.log("処理を終了します。");
 //     });
 // }
+// {
+//   function promiseFactory2(count) {
+//     return new Promise((resolve, reject) => {
+//       setTimeout(() => {
+//         count += 2;
+//         console.log(count);
+//         if (6 <= count) {
+//           reject(count);
+//         } else {
+//           resolve(count);
+//         }
+//       }, 1000);
+//     });
+//   }
+//   promiseFactory2(-2)
+//     .then((count) => {
+//       return promiseFactory2(count);
+//     })
+//     .then((count) => {
+//       return promiseFactory2(count);
+//     })
+//     .then((count) => {
+//       return promiseFactory2(count);
+//     })
+//     .then((count) => {
+//       return promiseFactory2(count);
+//     })
+//     .catch((erroCount) => {
+//       console.log("７以上になりました");
+//     })
+//     .finally(() => {
+//       console.log("処理を終了します。");
+//     });
+// }
+// {
+//   console.log("---並列処理Promise.all---");
+//   function wait(ms) {
+//     return new Promise((resolve, reject) => {
+//       setTimeout(() => {
+//         console.log(`${ms}msの処理が完了しました`);
+//         resolve(ms);
+//       });
+//     });
+//   }
+//   const wait400 = wait(400);
+//   const wait500 = wait(500);
+//   const wait600 = wait(600);
+
+//   Promise.all([wait500, wait600, wait400]).then(
+//     ([resolved500, resolved600, resolved400]) => {
+//       console.log("全てのPromiseが完了しました。");
+//       console.log(resolved500, resolved600, resolved400)
+//     }
+//   );
+// }
+// function delay(timeoutMs) {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve();
+//     }, timeoutMs);
+//   });
+// }
+// delay(10).then(() => {
+//   console.log("10ミリ秒後に呼ばれる");
+// });
+// {
+//   const fulfilledPromise = Promise.resolve(42);
+//   fulfilledPromise.then((value) => {
+//     console.log(value);
+//   });
+// }
+// const promise = new Promise((resolve) => {
+//   console.log("1,rsolveします");
+//   resolve();
+// });
+// promise.then(() => {
+//   console.log("3,コールバック関数が実行されました");
+// });
+// console.log("2,同期的な処理が実行されました");
+
+//エラーreject
 {
-  function promiseFactory2(count) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        count += 2;
-        console.log(count);
-        if (6 <= count) {
-          reject(count);
-        } else {
-          resolve(count);
-        }
-      }, 1000);
-    });
-  }
-  promiseFactory2(-2)
-    .then((count) => {
-      return promiseFactory2(count);
-    })
-    .then((count) => {
-      return promiseFactory2(count);
-    })
-    .then((count) => {
-      return promiseFactory2(count);
-    })
-    .then((count) => {
-      return promiseFactory2(count);
-    })
-    .catch((erroCount) => {
-      console.log("７以上になりました");
-    })
-    .finally(() => {
-      console.log("処理を終了します。");
-    });
+  Promise.reject(new Error("エラー")).catch(() => {
+    console.log("2. コールバック関数が実行されました");
+  });
+  console.log("1. 同期的な処理が実行されました");
 }
