@@ -164,9 +164,87 @@
 // console.log("2,同期的な処理が実行されました");
 
 //エラーreject
-{
-  Promise.reject(new Error("エラー")).catch(() => {
-    console.log("2. コールバック関数が実行されました");
-  });
-  console.log("1. 同期的な処理が実行されました");
-}
+// {
+//   Promise.reject(new Error("エラー")).catch(() => {
+//     console.log("2. コールバック関数が実行されました");
+//   });
+//   console.log("1. 同期的な処理が実行されました");
+// }
+
+const aaa = () => {
+  console.log("---Promeseチェーン---");
+
+  Promise.resolve()
+    .then(() => {
+      console.log(1);
+    })
+    .then(() => {
+      console.log(2);
+    });
+};
+
+const bbb = () => {
+  function asyncTask() {
+    return Math.random() > 0.5
+      ? Promise.resolve("成功")
+      : Promise.reject(new Error("失敗"));
+  }
+  asyncTask()
+    .then(function onFulfilled(value) {
+      console.log(value);
+    })
+    .catch(function ONRejected(error) {
+      console.log(error.message);
+    });
+};
+const PromiseCallbackCallback = () => {
+  Promise.resolve(1)
+    .then((value) => {
+      console.log(value); //1
+      return value * 2;
+    })
+    .then((value) => {
+      console.log(value); //2
+      return value * 2;
+    })
+    .then((value) => {
+      console.log(value); //4
+      //returがないので、undefinedを返す
+    })
+    .then((value) => {
+      console.log(value); //undefined
+    });
+};
+const ddd = () => {
+  //catchの後はthenにつながる、
+  //最初がthenの中がrejectになるとcatchへ行く
+  Promise.resolve()
+    .then(function onFulfilledA() {
+      return Promise.reject(new Error("失敗"));
+    })
+    .then(function onFulfilledB() {
+      console.log("onFulfilledBは呼び出されません");
+    })
+    .catch(function onRejected(error) {
+      console.log(error.message);
+    })
+    .then(function onFulfilledC() {
+      console.log("onFulfilldeCは呼び出されます");
+    });
+};
+const eee = (() => {
+  function main() {
+    return Promise.reject(new Error("エラー"));
+  }
+  main()
+    .catch((error) => {
+      console.log(error.message);
+      return Promise.reject(error);
+    })
+    .then(() => {
+      //前のcatchがRejectedなPromiseのため実行されない
+    })
+    .catch((error) => {
+      console.log("メインの処理が失敗した");
+    });
+})();
