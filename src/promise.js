@@ -232,7 +232,7 @@ const ddd = () => {
       console.log("onFulfilldeCは呼び出されます");
     });
 };
-const eee = (() => {
+const eee = () => {
   function main() {
     return Promise.reject(new Error("エラー"));
   }
@@ -243,8 +243,91 @@ const eee = (() => {
     })
     .then(() => {
       //前のcatchがRejectedなPromiseのため実行されない
+      console.log("成功");
     })
     .catch((error) => {
       console.log("メインの処理が失敗した");
     });
+};
+
+const PromiseFinally = () => {
+  const promise = Math.random() < 0.5 ? Promise.resolve() : Promise.reject();
+  promise
+    .then(() => {
+      console.log("Promiseのthenメソッド");
+    })
+    .catch((error) => {
+      console.log("Promiseのcatch");
+    })
+    .finally(() => {
+      console.log("Promiseのfinally");
+    });
+};
+const iii = () => {
+  function dummyFetch(path) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (path.startsWith("/resource")) {
+          resolve({ body: `Response body of ${path}` });
+        } else {
+          reject(new Error("NOT FOUND"));
+        }
+      }, 1000 * Math.random());
+    });
+  }
+  let isLOading = true;
+  dummyFetch("/resource/A")
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    .finally(() => {
+      isLOading = false;
+      console.log("Promiseのfinally");
+    });
+};
+const eeee = () => {
+  console.log("---Promiseチェーンで逐次処理---");
+  function dummyFetch(path) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (path.startsWith("/resource")) {
+          resolve({ body: `Response body of ${path}` });
+        } else {
+          reject(new Error("NOT FOUND"));
+        }
+      }, 1000 * Math.random());
+    });
+  }
+
+  const results = [];
+  dummyFetch("/resource/A")
+    .then((response) => {
+      results.push(response.body);
+      return dummyFetch("/resource/B");
+    })
+    .then((response) => {
+      results.push(response.body);
+    })
+    .then(() => {
+      console.log(results);
+    });
+};
+const PromiseAll = (() => {
+  function delay(timeoutMs) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(timeoutMs);
+      }, timeoutMs);
+    });
+  }
+  const promise1 = delay(1);
+  const promise2 = delay(2);
+  const promise3 = delay(3);
+
+  Promise.all([promise1, promise2, promise3]).then(function (values) {
+    console.log(values);
+  });
 })();
