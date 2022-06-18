@@ -70,7 +70,7 @@ const Promiseチェーンをawait式で表現する = () => {
   });
 };
 
-const 上の処理をAsyncFunctionで書くと = (() => {
+const 上の処理をAsyncFunctionで書くと = () => {
   function dummyFetch(path) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -91,6 +91,33 @@ const 上の処理をAsyncFunctionで書くと = (() => {
     return results;
   }
   fetchAB().then((results) => {
+    console.log(results);
+  });
+};
+
+const AsyncFunctionと反復処理 = (() => {
+  function dummyFetch(path) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (path.startsWith("/resource")) {
+          resolve({ body: `Response body of${path}` });
+        } else {
+          reject(new Error("NOT FOUND"));
+        }
+      }, 1000 * Math.random);
+    });
+  }
+  async function fetchResources(resources) {
+    const results = [];
+    for (let i = 0; i < resources.length; i++) {
+      const resource = resources[i];
+      const response = await dummyFetch(resource);
+      results.push(response.body);
+    }
+    return results;
+  }
+  const resources = ["/resource/A", "/resource/B", "/resource/C"];
+  fetchResources(resources).then((results) => {
     console.log(results);
   });
 })();
